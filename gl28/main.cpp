@@ -72,7 +72,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.1f,0.1f,0.2f,1.0f);
 
-
+        glDrawArrays(GL_TRIANGLE_FAN,0,ballshape.size()/2);
 
         processKeypress(window);
         glfwPollEvents();
@@ -107,15 +107,16 @@ const string loadShader(const char* filepath) {
 }
 
 GLuint createShader(SHADER_TYPE typeofshader, const char * sourcecode) {
-    GLuint* shdr_object_ptr;
+    GLuint shdr_object_ptr;
     if (typeofshader == VERTEX_SHADER) {
-        *shdr_object_ptr = glCreateShader(GL_VERTEX_SHADER);
+        shdr_object_ptr = glCreateShader(GL_VERTEX_SHADER);
     }
     if (typeofshader == FRAGMENT_SHADER) {
-        *shdr_object_ptr = glCreateShader(GL_FRAGMENT_SHADER);
+        shdr_object_ptr = glCreateShader(GL_FRAGMENT_SHADER);
     }
-    glShaderSource(*shdr_object_ptr,1,&sourcecode,nullptr);
-    return *shdr_object_ptr;
+    glShaderSource(shdr_object_ptr,1,&sourcecode,nullptr);
+    glCompileShader(shdr_object_ptr);
+    return shdr_object_ptr;
 }
 
 vector<float> generateBall(const int precision, float radius) {
