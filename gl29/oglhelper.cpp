@@ -78,7 +78,7 @@ const std::string ogl::loadShaderSource(const char* filepath) {
         std::string line;
         while (getline(file,line))
         {
-            container.append(line);            
+            container.append(line + "\n");            
         }
         file.close();
         return container;
@@ -95,6 +95,13 @@ GLuint ogl::createShader(SHADER_TYPE typeofshader, const char * sourcecode) {
     }
     glShaderSource(shdr,1,&sourcecode,nullptr);
     glCompileShader(shdr);
+    GLint param;
+    glGetShaderiv(shdr,GL_COMPILE_STATUS,&param);
+    if (!param) {
+        char infolog[512];
+        glGetShaderInfoLog(shdr,512,nullptr,infolog);
+        std::cerr << "Error compiling shader : " << infolog << std::endl;
+    }
     return shdr;
 }
 
@@ -187,12 +194,24 @@ void ogl::upload_point_enable_AB(const int index,const int datumsize,std::vector
     glEnableVertexAttribArray(index);
 }
 
+
+void ogl::resize(GLFWwindow * window,int width, int height) {
+    glViewport(0,0,width,height);    
+}
+
+void ogl::framecb(GLFWwindow* window) {
+    glfwSetFramebufferSizeCallback(window,resize);
+}
+
 std::vector<float> ogl::generateBackdrop() {
     std::vector<float> backdrop = {
         -1.0f,-1.0f,0.0f,
         1.0f,-1.0f,0.0f,
         1.0f,1.0f,0.0f,
-        -1.0f,1.0f,0.0f
-        };
+
+        -1.0f,-1.0f,0.0f,
+        -1.0f,1.0f,0.0f,
+        1.0f,1.0f,0.0f
+    };
     return backdrop;
 }

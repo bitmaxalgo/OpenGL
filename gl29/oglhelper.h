@@ -37,5 +37,7 @@ class ogl {
     static GLuint genVBO();
     static GLuint genbindVBO();
     static void upload_point_enable_AB(const int index,const int datumsize,std::vector<float> &array);
+    static void resize(GLFWwindow * window, int width, int height);
+    static void framecb(GLFWwindow * window);
 };
 #endif
