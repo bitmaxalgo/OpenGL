@@ -24,6 +24,7 @@ int main()
     GLFWwindow* window = ogl::window(800,600,"title");
     ogl::setcontext(window);
     ogl::loadglad(window);
+
                                                             // BALL
     vector<float> ballshape = ogl::generateBall(100,0.5f);
     GLuint VAO = ogl::genbindVAO();
