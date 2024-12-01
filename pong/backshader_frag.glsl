@@ -10,5 +10,5 @@ void main() {
     float fragoff = 400.0f + xoffnew * 400.0f;
     test.x = fragoff;
     float intensity = 40 / length(test - gl_FragCoord);
-    fcolor = vec4(0.0f,0.5f,0.2f,1.0f) * intensity;
+    fcolor = vec4(1.0f,0.6f,0.8f,1.0f) * intensity;
 }
