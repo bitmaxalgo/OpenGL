@@ -34,7 +34,7 @@ int main()
     ogl::loadglad(window);
 
     vector<Circle> circ_container;
-    vector<float> circle_shape = ogl::generateBall(100,0.10);
+    vector<float> circle_shape = ogl::generateBall(100,0.04);
 
     GLuint VAO_1 = ogl::genbindVAO();
     GLuint VBO_1 = ogl::genbindVBO();

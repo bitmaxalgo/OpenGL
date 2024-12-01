@@ -41,8 +41,8 @@ int main()
     GLint ball_boolean_location = glGetUniformLocation(shader_program,"draw_ball");
     GLint ball_vec2_location = glGetUniformLocation(shader_program, "ball_offset");
 
-    Paddle paddle_one(-0.9f,0.0f);                                                    // PADDLE OBJECT CREATION
-    Paddle paddle_two(0.9f,0.0f);
+    Paddle paddle_one(-0.94f,0.0f);                                                    // PADDLE OBJECT CREATION
+    Paddle paddle_two(0.94f,0.0f);
 
     GLuint paddle_buffer_object = ogl::genbindVBO();                            // PADDLE BUFFER OBJECT
     std::vector<float> paddle_vertices = {
@@ -75,6 +75,8 @@ int main()
 
         drawBackdrop(backdrop_boolean_location,backdrop_array_index,fragment_color_location);                                 
 
+        checkCollision(paddle_one,paddle_two,ball_object);
+
         moveBall(ball_vec2_location,ball_object);
 
         drawBall(ball_boolean_location,ball_array_index,fragment_color_location);    
@@ -83,7 +85,6 @@ int main()
         
         drawPaddles(paddle_boolean_location,paddle_array_index,fragment_color_location,paddle_vec2_location,paddle_one,paddle_two);
 
-        checkCollision(paddle_one,paddle_two,ball_object);
 
 
         ogl::basicEvents(window);
