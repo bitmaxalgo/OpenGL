@@ -66,6 +66,7 @@ int main()
     glUseProgram(shader_program);
     glBindVertexArray(vertex_array_object);
 
+
     glEnable(GL_MULTISAMPLE);
     glfwSwapInterval(1);
 
