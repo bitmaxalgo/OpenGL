@@ -17,6 +17,11 @@ uniform bool draw_paddle;
 uniform vec2 paddle_offset;                               // PADDLE OFFSET
 
 
+layout (location = 3) in vec2 zero_vertices;
+uniform bool draw_zero;                             // DRAW ZERO
+
+
+
 vec2 processBallMovements();                            // FORWARD DECLARATION
 
 void main()
@@ -29,13 +34,20 @@ void main()
     {
         vec2 ball_updated_position = processBallMovements();
         gl_Position = vec4(ball_updated_position,0.0f,1.0f);
-    } else if (draw_paddle)
+
+    }
+    else if (draw_paddle)
     {
         vec2 paddle_vertices_copy = paddle_vertices;
         paddle_vertices_copy += paddle_offset;
         gl_Position = vec4(paddle_vertices_copy,0.0f,1.0f);        
-    }
 
+    }
+    else if (draw_zero)
+    {
+        vec2 zero_vertices_copy = zero_vertices;
+        gl_Position = vec4(zero_vertices_copy,0.0f,1.0f);
+    }
 }
 
 vec2 processBallMovements() 

@@ -59,6 +59,8 @@ void Ball::moveball() {
     this->y += speedy;
 }
 
+void drawZero(GLuint zero_array_index, GLint &zero_boolean_location, std::vector<float> &zero_number, GLuint fragment_color_location);
+std::vector<float> createPaddleVertices(); 
 void drawBackdrop(GLint &backdrop_boolean_location, GLuint backdrop_array_index, GLuint fragment_color_location);
 void drawBall(GLint &ball_boolean_location, GLuint ball_array_index, GLuint fragment_color_location);
 void moveBall(GLint &ball_vec2_location, Ball &ball_object);

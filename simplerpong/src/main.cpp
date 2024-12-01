@@ -4,6 +4,7 @@
 
 #include "../includes/oglhelper.h"          // CUSTOM OGL FUNCTIONS
 #include "../includes/specific_forwards.h"   
+#include "../includes/text.h"
 
 int main()
 {
@@ -45,15 +46,8 @@ int main()
     Paddle paddle_two(0.94f,0.0f);
 
     GLuint paddle_buffer_object = ogl::genbindVBO();                            // PADDLE BUFFER OBJECT
-    std::vector<float> paddle_vertices = {
-        -Paddle::paddle_width_ndc, -Paddle::paddle_height_ndc,
-        Paddle::paddle_width_ndc, -Paddle::paddle_height_ndc,
-        Paddle::paddle_width_ndc, Paddle::paddle_height_ndc,
-
-        -Paddle::paddle_width_ndc, -Paddle::paddle_height_ndc,
-        -Paddle::paddle_width_ndc, Paddle::paddle_height_ndc,
-        Paddle::paddle_width_ndc, Paddle::paddle_height_ndc,
-    };
+    std::vector<float> paddle_vertices = createPaddleVertices();
+     
     const GLuint paddle_array_index = 2;
     ogl::upload_point_enable_AB(paddle_array_index,2,paddle_vertices);
 
@@ -61,7 +55,13 @@ int main()
     GLuint paddle_vec2_location = glGetUniformLocation(shader_program,"paddle_offset");
     glUniform2f(paddle_vec2_location,0.5f,0.5f);
 
+    std::vector<float> zero_number = ogltext::generateMap(ogltext::NUM::ZERO);  // GENERATING ZERO BIT MAP
+
+    GLuint zero_buffer = ogl::genbindVBO();                 // NUMBERS SCORING EXC
+    const GLuint zero_array_index = 3;
+    ogl::upload_point_enable_AB(zero_array_index,2,zero_number);
     
+    GLint zero_boolean_location = glGetUniformLocation(shader_program,"draw_zero");         // ZERO BOOL LOC
 
     glUseProgram(shader_program);
     glBindVertexArray(vertex_array_object);
@@ -86,7 +86,7 @@ int main()
         
         drawPaddles(paddle_boolean_location,paddle_array_index,fragment_color_location,paddle_vec2_location,paddle_one,paddle_two);
 
-
+        drawZero(zero_array_index,zero_boolean_location,zero_number,fragment_color_location);
 
         ogl::basicEvents(window);
     }                                                                           // MAIN GAME LOOP END
@@ -95,6 +95,29 @@ int main()
 
     return 0;
 }
+
+std::vector<float> createPaddleVertices() {
+    std::vector<float> paddle_vertices = {
+        -Paddle::paddle_width_ndc, -Paddle::paddle_height_ndc,
+        Paddle::paddle_width_ndc, -Paddle::paddle_height_ndc,
+        Paddle::paddle_width_ndc, Paddle::paddle_height_ndc,
+
+        -Paddle::paddle_width_ndc, -Paddle::paddle_height_ndc,
+        -Paddle::paddle_width_ndc, Paddle::paddle_height_ndc,
+        Paddle::paddle_width_ndc, Paddle::paddle_height_ndc,
+    };
+    return paddle_vertices;
+}
+
+void drawZero(GLuint zero_array_index, GLint &zero_boolean_location, std::vector<float> &zero_number, GLuint fragment_color_location) {
+    glEnableVertexAttribArray(zero_array_index);
+    glUniform1i(zero_boolean_location,1);
+    glUniform4f(fragment_color_location,1.0f,1.0f,0.8f,1.0f);
+    glDrawArrays(GL_POINTS,0,zero_number.size()/2);
+    glDisableVertexAttribArray(zero_array_index);
+    glUniform1i(zero_boolean_location,0);
+}
+
 
 void drawBackdrop(GLint &backdrop_boolean_location, GLuint backdrop_array_index,GLuint fragment_color_location) {
     glEnableVertexAttribArray(backdrop_array_index);
