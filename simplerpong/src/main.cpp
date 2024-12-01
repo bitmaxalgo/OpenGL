@@ -67,6 +67,11 @@ int main()
     glBindVertexArray(vertex_array_object);
 
 
+    GLint resolution_loc = glGetUniformLocation(shader_program,"resolution");
+    glUniform2f(resolution_loc,WINDOW_WIDTH_M,WINDOW_HEIGHT_M);
+
+    ogl::framecb(window);
+
     glEnable(GL_MULTISAMPLE);
     glfwSwapInterval(1);
 

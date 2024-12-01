@@ -1,5 +1,5 @@
-const int WINDOW_WIDTH_M = 800;
-const int WINDOW_HEIGHT_M = 600;
+const int WINDOW_WIDTH_M = 1080;
+const int WINDOW_HEIGHT_M = 1080;
 
 class Paddle {
 

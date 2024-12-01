@@ -20,19 +20,23 @@ uniform vec2 paddle_offset;                               // PADDLE OFFSET
 layout (location = 3) in vec2 zero_vertices;
 uniform bool draw_zero;                             // DRAW ZERO
 
-
+uniform vec2 resolution;
 
 vec2 processBallMovements();                            // FORWARD DECLARATION
 
 void main()
 {
+    float aspect_ratio = resolution.x / resolution.y;
     if (draw_backdrop)
     {
-        gl_Position = vec4(backdrop_vertices,1.0f);
+        vec3 backdrop_vertices_copy = backdrop_vertices;
+        backdrop_vertices_copy.x /= aspect_ratio;
+        gl_Position = vec4(backdrop_vertices_copy,1.0f);
     }
     else if (draw_ball)
     {
         vec2 ball_updated_position = processBallMovements();
+        ball_updated_position.x /= aspect_ratio;
         gl_Position = vec4(ball_updated_position,0.0f,1.0f);
 
     }
@@ -40,6 +44,7 @@ void main()
     {
         vec2 paddle_vertices_copy = paddle_vertices;
         paddle_vertices_copy += paddle_offset;
+        paddle_vertices_copy.x /= aspect_ratio;
         gl_Position = vec4(paddle_vertices_copy,0.0f,1.0f);        
 
     }
